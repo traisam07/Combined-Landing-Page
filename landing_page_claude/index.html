@@ -1,0 +1,621 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>PulseMind — See where each breath is heading</title>
+  <meta name="description" content="PulseMind is a proof-of-concept clinical decision-support dashboard that aligns ventilator, monitor and lab data into one explainable, time-aligned view of respiratory risk for adult mechanically ventilated ICU patients.">
+  <meta name="theme-color" content="#08090a">
+  <meta property="og:title" content="PulseMind — Each reading looks fine. The trend doesn’t.">
+  <meta property="og:description" content="An explainable, read-only view of respiratory risk for adult ventilated ICU patients. Proof of concept, built with ICU clinicians in Ho Chi Minh City.">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <script>document.documentElement.classList.replace('no-js','js')</script>
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ───────────────── Preloader ───────────────── -->
+<div class="preloader" id="preloader" aria-hidden="true">
+  <svg class="pre-line" viewBox="0 0 600 120" preserveAspectRatio="none">
+    <path d="M0 80 H250 C262 80 264 78 268 70 L282 22 C284 15 290 15 292 22 L300 50 H326 C332 50 334 52 337 58 L345 76 C348 80 350 80 356 80 H600"/>
+  </svg>
+  <div class="pre-meta mono"><span>PulseMind</span><span><b id="preCount">0</b>% · aligning 6 sources</span></div>
+</div>
+
+<!-- ───────────────── Navigation ───────────────── -->
+<header class="nav" id="nav" data-on="dark">
+  <a class="brand" href="#top" aria-label="PulseMind — back to top">
+    <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true"><path d="M6 42h12c2 0 3-1 4-3l4-17c.6-2.4 3-2.4 3.6 0L31 30h6c1.4 0 2.2.8 2.8 2l2.6 6c.8 2 1.8 4 4 4H58"/></svg>
+    <span>PulseMind</span>
+  </a>
+  <nav class="nav-links" aria-label="Sections">
+    <a href="#problem">Problem</a>
+    <a href="#voices">Research</a>
+    <a href="#how">How it works</a>
+    <a href="#prototype">Prototype</a>
+    <a href="#roadmap">Roadmap</a>
+    <a href="#team">Team</a>
+  </nav>
+  <a class="nav-cta" href="#partner"><span>Partner with us</span><i aria-hidden="true">→</i></a>
+  <div class="progress" aria-hidden="true"><span id="progressBar"></span></div>
+</header>
+
+<main id="main">
+
+<!-- ───────────────── 00 · Hero ───────────────── -->
+<section class="hero" id="top" data-theme="dark">
+  <div class="hero-top wrap">
+    <p class="eyebrow mono"><span class="live-dot" aria-hidden="true"></span>Clinical decision support for adult ventilated ICU patients</p>
+    <h1 class="hero-title" data-split>
+      <span class="line">Each reading <br class="m-br">looks fine.</span>
+      <span class="line"><em>The trend doesn’t.</em></span>
+    </h1>
+  </div>
+
+  <div class="hero-wave" id="heroWaveWrap">
+    <canvas id="heroWave" aria-hidden="true"></canvas>
+    <div class="wave-readout mono" id="waveReadout" aria-hidden="true"></div>
+    <p class="sr-only">An illustrative ventilator pressure waveform. Each peak pressure label sits within an acceptable range, but a dashed trend line across six hours shows peak pressure steadily rising.</p>
+  </div>
+
+  <div class="hero-bottom wrap">
+    <p class="hero-sub" data-reveal>PulseMind lines up ventilator, monitor and lab data on one timeline, then turns it into an explainable view of respiratory risk, so ICU teams can see who may need review first.</p>
+    <div class="hero-actions" data-reveal>
+      <a class="btn btn-signal" href="#prototype">Try the prototype <i aria-hidden="true">↓</i></a>
+      <a class="btn btn-ghost" href="#partner">Partner with us</a>
+    </div>
+    <ul class="hero-tags mono" data-reveal>
+      <li>Read-only</li><li>Explainable</li><li>Clinician-controlled</li>
+    </ul>
+  </div>
+
+  <div class="hero-meta mono wrap" aria-hidden="true">
+    <span>Proof of concept · Simulated signal</span>
+    <span class="hero-scroll">Scroll — the night shift starts <i>↓</i></span>
+    <span>Bach Khoa Innovation 2026 · Grand Final</span>
+  </div>
+</section>
+
+<!-- ───────────────── 01 · The problem (pinned scene) ───────────────── -->
+<section class="noise" id="problem" data-theme="dark" aria-labelledby="noiseTitleA">
+  <div class="noise-sticky" id="noiseSticky">
+    <div class="noise-day" id="noiseDay" aria-hidden="true"></div>
+    <div class="noise-copy">
+      <p class="kicker mono">§01 — The problem</p>
+      <div class="noise-states">
+        <div class="noise-state noise-a">
+          <h2 class="display" id="noiseTitleA">The ICU isn’t short of&nbsp;data.</h2>
+          <p>It’s spread across six places, sampled at different rates, and interrupted by alarms. In our survey, a single respiratory review drew on <strong>4.25 of 6</strong> source groups on average.</p>
+        </div>
+        <div class="noise-state noise-b">
+          <h2 class="display">It’s short of <em>a&nbsp;clear&nbsp;view.</em></h2>
+          <p>PulseMind lines every source up on one patient timeline, then reads the trajectory instead of the snapshot. The device alarms stay exactly where they are.</p>
+        </div>
+      </div>
+      <div class="noise-progress mono" aria-hidden="true"><span>Scattered</span><i><b id="noiseBar"></b></i><span>Aligned</span></div>
+    </div>
+
+    <div class="noise-scene" id="noiseScene" aria-hidden="true">
+      <!-- Source fragments -->
+      <div class="frag" data-src="vent">
+        <div class="frag-h"><span>Ventilator</span><em class="frag-alarm">High pressure</em></div>
+        <dl class="frag-grid">
+          <div><dt>Ppeak</dt><dd>31<small>cmH₂O</small></dd></div>
+          <div><dt>PEEP</dt><dd>8</dd></div>
+          <div><dt>FiO₂</dt><dd>0.55</dd></div>
+          <div><dt>VT</dt><dd>402<small>mL</small></dd></div>
+        </dl>
+      </div>
+      <div class="frag" data-src="monitor">
+        <div class="frag-h"><span>Bedside monitor</span><em class="frag-alarm amber">SpO₂ low</em></div>
+        <dl class="frag-grid">
+          <div><dt>HR</dt><dd class="c-green">112</dd></div>
+          <div><dt>SpO₂</dt><dd class="c-cyan">92<small>%</small></dd></div>
+          <div><dt>RR</dt><dd class="c-yellow">27</dd></div>
+          <div><dt>ABP</dt><dd>98/61</dd></div>
+        </dl>
+      </div>
+      <div class="frag" data-src="labs">
+        <div class="frag-h"><span>Blood gas</span><span class="frag-time">resulted 3 h ago</span></div>
+        <dl class="frag-grid">
+          <div><dt>pH</dt><dd>7.31</dd></div>
+          <div><dt>PaO₂</dt><dd>64</dd></div>
+          <div><dt>PaCO₂</dt><dd>51</dd></div>
+          <div><dt>Lact</dt><dd>1.9</dd></div>
+        </dl>
+      </div>
+      <div class="frag" data-src="chart">
+        <div class="frag-h"><span>Nursing chart</span><span class="frag-time">flowsheet</span></div>
+        <ul class="frag-rows">
+          <li><span>22:00</span><span>RR 20 · SpO₂ 95</span></li>
+          <li><span>00:00</span><span>RR 22 · SpO₂ 94</span></li>
+          <li class="missing"><span>02:00</span><span>— not charted —</span></li>
+        </ul>
+      </div>
+      <div class="frag" data-src="exam">
+        <div class="frag-h"><span>Examination</span><span class="frag-time">01:10</span></div>
+        <p class="frag-note">“Mild accessory muscle use. Re-assess after suction.”</p>
+      </div>
+      <div class="frag" data-src="handover">
+        <div class="frag-h"><span>Handover</span><span class="frag-time">19:00</span></div>
+        <p class="frag-note">“Stable on day shift. Watch secretions.”</p>
+      </div>
+
+      <!-- Alarm chips -->
+      <span class="chip">HIGH PRESSURE</span>
+      <span class="chip amber">SpO₂ 89</span>
+      <span class="chip">LOW MIN VOL</span>
+      <span class="chip amber">HIGH RR</span>
+      <span class="chip">APNEA</span>
+      <span class="chip amber">LEAK</span>
+      <span class="chip">CHECK TUBE</span>
+      <span class="chip amber">HR 121</span>
+      <span class="chip">DISCONNECT?</span>
+
+      <!-- Aligned view -->
+      <svg class="lanes" id="lanes"></svg>
+      <p class="tray-label mono" id="trayLabel">Device alarms<br> <b>unchanged — still on the devices</b></p>
+      <div class="prompt-card" id="promptCard">
+        <span class="mono">Focused review prompt</span>
+        <strong>Bed 7 · High · 68.2</strong>
+        <p>Respiratory rate contributes most, then PEEP. Rising over 3 readings.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── 02 · Field research (scrollytelling) ───────────────── -->
+<section class="voices" id="voices" data-theme="light">
+  <div class="wrap voices-head">
+    <p class="kicker mono">§02 — Field research, 2026</p>
+    <h2 class="display" data-split><span class="line">We asked the people</span><span class="line"><em>at the bedside.</em></span></h2>
+  </div>
+
+  <div class="wrap voices-grid">
+    <div class="voices-sticky">
+      <div class="dots-panel">
+        <div class="counter" aria-live="polite">
+          <span class="counter-n" id="countN">36</span><span class="counter-d" id="countD">/ 36</span>
+        </div>
+        <p class="counter-label mono" id="countLabel">ICU professionals surveyed</p>
+        <div class="sites">
+          <div class="site"><p class="mono">Hospital A · 22</p><div class="dots dots-a" id="dotsA"></div></div>
+          <div class="site"><p class="mono">Hospital B · 14</p><div class="dots dots-b" id="dotsB"></div></div>
+        </div>
+        <ul class="legend mono">
+          <li><i class="lg lg-n"></i>Nurse</li>
+          <li><i class="lg lg-p"></i>Physician</li>
+          <li><i class="lg lg-x"></i>Not asked at this site</li>
+        </ul>
+      </div>
+    </div>
+
+    <ol class="steps">
+      <li class="step" data-step="0">
+        <p class="step-k mono">01 / 07</p>
+        <h3>36 ICU professionals.</h3>
+        <p>22 nurses and 14 physicians at two hospitals in Ho Chi Minh City. Every one of them had directly cared for a mechanically ventilated adult in the past 24 months.</p>
+      </li>
+      <li class="step" data-step="1">
+        <p class="step-k mono">02 / 07</p>
+        <h3>Everyone starts at the ventilator. Then the hunt begins.</h3>
+        <p>All 36 use the ventilator screen and its alarms to assess respiratory change. Most then piece together everything else:</p>
+        <ul class="srcbars mono">
+          <li style="--v:1"><span>Ventilator screen &amp; alarms</span><b>36</b></li>
+          <li style="--v:.972"><span>Direct examination</span><b>35</b></li>
+          <li style="--v:.917"><span>Bedside monitor</span><b>33</b></li>
+          <li style="--v:.583"><span>Blood gas &amp; labs</span><b>21</b></li>
+          <li style="--v:.472"><span>Charts &amp; flowsheets</span><b>17</b></li>
+          <li style="--v:.306"><span>Handover &amp; colleagues</span><b>11</b></li>
+        </ul>
+        <p class="step-note">Average: <strong>4.25 of 6</strong> source groups per respondent.</p>
+      </li>
+      <li class="step" data-step="2">
+        <p class="step-k mono">03 / 07 · Hospital A</p>
+        <h3>Alarms dominate the work.</h3>
+        <p>Asked what affects their monitoring most, 20 of 22 at Hospital A described ventilator alarms or abnormal ventilator parameters. The other two named staffing.</p>
+      </li>
+      <li class="step" data-step="3">
+        <p class="step-k mono">04 / 07 · Hospital B</p>
+        <h3>Too many places to look.</h3>
+        <p>8 of 14 rated checking many devices and records as a major barrier (4–5 on a 5-point scale). As many said the same of balancing documentation with monitoring, and 7 of 14 of tracking down older readings.</p>
+      </li>
+      <li class="step" data-step="4">
+        <p class="step-k mono">05 / 07 · Hospital A</p>
+        <h3>Their biggest fear? <em>More prompts.</em></h3>
+        <p>Asked what would worry them about a tool like PulseMind, every valid answer (21 of 21) flagged too many prompts. So PulseMind only prompts when defined criteria are met.</p>
+      </li>
+      <li class="step" data-step="5">
+        <p class="step-k mono">06 / 07 · Hospital B</p>
+        <h3>Keep what already works.</h3>
+        <p>All 14 want the existing ventilator and monitor alarms kept, along with routine bedside nursing observation. PulseMind adds a view. It removes nothing.</p>
+      </li>
+      <li class="step" data-step="6">
+        <p class="step-k mono">07 / 07 · Both hospitals</p>
+        <h3>A conditional yes.</h3>
+        <p>28 of 36 rated the concept useful or very useful, <em>provided it’s shown to be safe and fits their workflow.</em> The other 8 rated it moderately useful.</p>
+      </li>
+    </ol>
+  </div>
+
+  <p class="wrap footnote mono">Exploratory, descriptive survey (N=36). Hospitals A (n=22) and B (n=14) used different questionnaires, so results are pooled only where the questions match. Each dot is one respondent; dot positions are illustrative. These findings guide design. They are not evidence of clinical effectiveness.</p>
+</section>
+
+<!-- ───────────────── 03 · Principles ───────────────── -->
+<section class="spec" id="spec" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§03 — Design principles</p>
+      <h2 class="display" data-split><span class="line">What they asked for</span><span class="line"><em>became the spec.</em></span></h2>
+      <p class="lede" data-reveal>At Hospital A, we asked clinicians what a tool like this would need before they’d consider using it. Their answers became the design spec.</p>
+    </div>
+
+    <div class="spec-grid">
+      <article class="spec-card" data-reveal>
+        <p class="spec-n"><span data-count="100">100</span><small>%</small></p>
+        <p class="spec-frac mono">22 of 22</p>
+        <h3>Build it with clinicians.</h3>
+        <p class="spec-ask">Doctors and nurses involved in design and evaluation.</p>
+        <p class="spec-ans"><span class="mono">PulseMind →</span> Survey-led design, and a clinician-approved prediction target before any validation begins.</p>
+      </article>
+      <article class="spec-card" data-reveal>
+        <p class="spec-n"><span data-count="90.9" data-dec="1">90.9</span><small>%</small></p>
+        <p class="spec-frac mono">20 of 22</p>
+        <h3>Show what’s getting worse.</h3>
+        <p class="spec-ask">Surface the main trend that is deteriorating, not just the latest number.</p>
+        <p class="spec-ans"><span class="mono">PulseMind →</span> Risk shown with its direction of change across successive assessments.</p>
+      </article>
+      <article class="spec-card" data-reveal>
+        <p class="spec-n"><span data-count="90.9" data-dec="1">90.9</span><small>%</small></p>
+        <p class="spec-frac mono">20 of 22</p>
+        <h3>Explain why.</h3>
+        <p class="spec-ask">Make clear why the system is flagging a patient.</p>
+        <p class="spec-ans"><span class="mono">PulseMind →</span> Ranked contributing variables, plus a concise explanation that can be traced to its sources.</p>
+      </article>
+      <article class="spec-card" data-reveal>
+        <p class="spec-n"><span data-count="90.9" data-dec="1">90.9</span><small>%</small></p>
+        <p class="spec-frac mono">20 of 22</p>
+        <h3>Let people decide.</h3>
+        <p class="spec-ask">Humans check the output and make every decision.</p>
+        <p class="spec-ans"><span class="mono">PulseMind →</span> Read-only. The only action in the interface is marking a review.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── 04 · How it works ───────────────── -->
+<section class="how" id="how" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§04 — How it works</p>
+      <h2 class="display" data-split><span class="line">From fragments to</span><span class="line"><em>one focused prompt.</em></span></h2>
+    </div>
+
+    <ol class="how-steps">
+      <li class="how-step" data-reveal>
+        <div class="how-vis vis-align" aria-hidden="true">
+          <svg viewBox="0 0 260 150">
+            <g class="va-row"><line x1="20" x2="240" y1="38" y2="38"/><circle cx="40" cy="38" r="5" style="--dx:-14px;--dy:22px"/><circle cx="88" cy="38" r="5" style="--dx:10px;--dy:-18px"/><circle cx="141" cy="38" r="5" style="--dx:-6px;--dy:34px"/><circle cx="196" cy="38" r="5" style="--dx:16px;--dy:12px"/></g>
+            <g class="va-row"><line x1="20" x2="240" y1="76" y2="76"/><circle cx="62" cy="76" r="5" style="--dx:20px;--dy:-30px"/><circle cx="141" cy="76" r="5" style="--dx:-24px;--dy:16px"/><circle cx="218" cy="76" r="5" style="--dx:-10px;--dy:-26px"/></g>
+            <g class="va-row"><line x1="20" x2="240" y1="114" y2="114"/><circle cx="110" cy="114" r="5" style="--dx:-30px;--dy:-24px"/><circle cx="196" cy="114" r="5" style="--dx:12px;--dy:-40px"/></g>
+            <line class="va-now" x1="141" x2="141" y1="20" y2="132"/>
+          </svg>
+        </div>
+        <p class="how-k mono">01 — Align</p>
+        <h3>Organise data over time</h3>
+        <p>Checks there’s enough data to assess, flags what’s missing, and lines every source up on one patient chronology, whatever its sampling rate.</p>
+      </li>
+      <li class="how-step" data-reveal>
+        <div class="how-vis vis-traj" aria-hidden="true">
+          <svg viewBox="0 0 260 150">
+            <rect class="vt-win" x="40" y="18" width="62" height="116" rx="6"/>
+            <rect class="vt-win" x="110" y="18" width="62" height="116" rx="6"/>
+            <rect class="vt-win hl" x="180" y="18" width="62" height="116" rx="6"/>
+            <path class="vt-line" pathLength="1" d="M20 112 C46 110 60 108 80 104 S118 98 140 92 S176 78 198 64 S226 44 242 34"/>
+            <line class="vt-slope" x1="186" y1="72" x2="242" y2="30"/>
+            <text class="vt-lbl" x="190" y="124">Δ / h</text>
+          </svg>
+        </div>
+        <p class="how-k mono">02 — Analyse</p>
+        <h3>Read the trajectory</h3>
+        <p>Instead of isolated readings, it derives features across time windows, such as recent values, rates of change, variability and relationships between variables, alongside patient context.</p>
+      </li>
+      <li class="how-step" data-reveal>
+        <div class="how-vis vis-est" aria-hidden="true">
+          <svg viewBox="0 0 260 150">
+            <text class="ve-score" x="20" y="48">68.2</text>
+            <text class="ve-lbl" x="108" y="30">target · horizon</text>
+            <text class="ve-lbl" x="108" y="46">level: high</text>
+            <g class="ve-bars">
+              <text x="20" y="80">RR</text><rect x="74" y="71" width="160" height="10" rx="3" style="--w:.647"/>
+              <text x="20" y="100">PEEP</text><rect x="74" y="91" width="160" height="10" rx="3" style="--w:.504"/>
+              <text x="20" y="120">ΔP</text><rect x="74" y="111" width="160" height="10" rx="3" style="--w:.414"/>
+              <text x="20" y="140">FiO₂</text><rect x="74" y="131" width="160" height="10" rx="3" style="--w:.296"/>
+            </g>
+          </svg>
+        </div>
+        <p class="how-k mono">03 — Estimate</p>
+        <h3>A specific, explainable risk</h3>
+        <p>A target-specific model estimates the likelihood of one defined respiratory event within a stated horizon, and ranks the variables that most influenced it. These influences are not presented as causes.</p>
+      </li>
+      <li class="how-step" data-reveal>
+        <div class="how-vis vis-prompt" aria-hidden="true">
+          <svg viewBox="0 0 260 150">
+            <line class="vp-thr" x1="14" x2="246" y1="62" y2="62"/>
+            <text class="vp-lbl" x="14" y="54">prompt threshold</text>
+            <g class="vp-dots">
+              <circle cx="24" cy="120" r="4"/><circle cx="48" cy="116" r="4"/><circle cx="72" cy="118" r="4"/><circle cx="96" cy="110" r="4"/><circle cx="120" cy="104" r="4"/><circle cx="144" cy="96" r="4"/><circle cx="168" cy="84" r="4"/><circle cx="192" cy="72" r="4"/>
+              <circle class="hit" cx="216" cy="52" r="6"/>
+            </g>
+            <text class="vp-lbl q" x="24" y="142">quiet · on the board</text>
+            <g class="vp-card"><rect x="150" y="8" width="96" height="28" rx="6"/><text x="160" y="27">Review →</text></g>
+          </svg>
+        </div>
+        <p class="how-k mono">04 — Prompt</p>
+        <h3>Only when it matters</h3>
+        <p>Only High or Critical assessments generate a focused prompt with the target, horizon, trend, contributors, data limits and a plain-language explanation. Everything else stays quietly on the board.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ───────────────── 05 · Prototype ───────────────── -->
+<section class="proto" id="prototype" data-theme="dark">
+  <div class="wrap">
+    <div class="sec-head proto-head">
+      <p class="kicker mono">§05 — Interactive prototype</p>
+      <h2 class="display" data-split><span class="line">Two levels.</span><span class="line"><em>One calm workflow.</em></span></h2>
+      <p class="lede" data-reveal>Start with the unit: who’s pending review, ranked by estimated risk. Open a patient to see the score, its trend, what drove it and how trustworthy the data is. Then open a parameter to see where every value came from.</p>
+    </div>
+
+    <div class="device" data-reveal>
+      <div class="device-bar">
+        <span class="db-dots" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span class="db-url mono">pulsemind / icu-a / <b id="crumb">overview</b></span>
+        <span class="db-sim mono">Simulated data · illustrative scores</span>
+      </div>
+      <div class="app" id="app" aria-live="polite"></div>
+    </div>
+
+    <div class="proto-foot">
+      <p class="pf-hint mono"><span>Try it:</span> click a patient, open a parameter, mark a review. Nothing leaves this page.</p>
+      <dl class="pf-stats" data-reveal>
+        <div><dt class="mono">Patient Overview</dt><dd>3.79<small>/5</small></dd></div>
+        <div><dt class="mono">Patient Detail</dt><dd>3.86<small>/5</small></dd></div>
+        <div><dt class="mono">Parameter Detail</dt><dd>3.69<small>/5</small></dd></div>
+      </dl>
+      <p class="pf-note">Early ratings from 14 ICU clinicians at Hospital B. 10 of 14 asked for better colour, contrast and type size, so that’s what we’re fixing before formal usability testing.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── 06 · Boundaries ───────────────── -->
+<section class="bounds" id="boundaries" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§06 — Boundaries</p>
+      <h2 class="display" data-split><span class="line">The fine print,</span><span class="line"><em>in large print.</em></span></h2>
+    </div>
+
+    <div class="never">
+      <p class="never-lead mono">Struck from the spec,<br>permanently</p>
+      <ul class="never-list">
+        <li data-reveal><span>Diagnosis.</span></li>
+        <li data-reveal><span>Treatment recommendations.</span></li>
+        <li data-reveal><span>Ventilator control.</span></li>
+        <li data-reveal><span>Silencing or replacing alarms.</span></li>
+        <li data-reveal><span>Replacing clinical judgement.</span></li>
+      </ul>
+    </div>
+
+    <div class="bounds-grid">
+      <article class="bcard" data-reveal>
+        <p class="bcard-k mono">Read-only, by design</p>
+        <h3>No path back to the bedside.</h3>
+        <p>There is no pathway for sending commands, ventilator settings or treatment instructions to any device or source system. This holds for the prototype and for any future integrated version. Every clinical action happens outside PulseMind, through existing hospital workflows.</p>
+      </article>
+      <article class="bcard" data-reveal>
+        <p class="bcard-k mono">Honest about gaps</p>
+        <h3>It tells you what it doesn’t know.</h3>
+        <ul class="states">
+          <li><span class="st st-unavail">Risk level unavailable</span><p>No score is guessed when required inputs are missing.</p></li>
+          <li><span class="st st-unknown">Data sufficiency unknown</span><p>Uncertain inputs are flagged, never left blank.</p></li>
+          <li><span class="st st-carried">Carried forward · 18 min</span><p>Repeated values say when they were last actually measured.</p></li>
+          <li><span class="st st-pop">Population reference</span><p>Filled-in values are labelled as filled in.</p></li>
+        </ul>
+      </article>
+      <article class="bcard" data-reveal>
+        <p class="bcard-k mono">Specific, never vague</p>
+        <h3>Not “this patient is deteriorating.”</h3>
+        <p>Every assessment names the event it estimates, the prediction horizon, the assessment time and the time of the latest usable data. Its risk level is about that target only, not the patient’s overall severity.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── 07 · Under the hood ───────────────── -->
+<section class="hood" id="hood" data-theme="dark">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§07 — Under the hood</p>
+      <h2 class="display" data-split><span class="line">Early model work,</span><span class="line"><em>honestly labelled.</em></span></h2>
+      <p class="lede" data-reveal>Offline feasibility experiments on de-identified MIMIC-IV data from PhysioNet. They show the pipeline can work. They are not a clinically validated model.</p>
+    </div>
+
+    <dl class="hood-stats">
+      <div data-reveal><dt class="mono">Rows extracted</dt><dd><span data-count="4" data-suffix="M+">4M+</span></dd><p>out of roughly 400 million in the full dataset</p></div>
+      <div data-reveal><dt class="mono">Distinct ICU patients</dt><dd><span data-count="36000" data-suffix="+">36,000+</span></dd><p>in the extracted training corpus</p></div>
+      <div data-reveal><dt class="mono">Engineered columns</dt><dd><span data-count="109">109</span></dd><p>after the transform step</p></div>
+      <div data-reveal><dt class="mono">Train / evaluate</dt><dd>70<i>/</i>30</dd><p>conventional split</p></div>
+      <div data-reveal><dt class="mono">Model family</dt><dd class="dd-word">XGBoost</dd><p>chosen over LightGBM for speed on high-velocity data streams</p></div>
+      <div data-reveal><dt class="mono">Integrity signals</dt><dd><span data-count="3">3</span></dd><p>imputed, documentation and physiology share, which show <em>what the model is actually learning from</em></p></div>
+    </dl>
+
+    <div class="hood-notes">
+      <article data-reveal>
+        <p class="mono">Explanation layer</p>
+        <p>An LLM explanation layer turns structured outputs into plain clinician-facing language <em>after</em> prediction. It never sets or changes the score. Citations come only from approved, version-controlled clinical documents.</p>
+      </article>
+      <article data-reveal>
+        <p class="mono">What isn’t locked yet</p>
+        <p>The clinical target, horizon, cohort, outcome label, features and thresholds will be fixed with clinical partners first. Until then, prototype scores are illustrative, not calibrated probabilities.</p>
+      </article>
+    </div>
+
+    <div class="flow" data-reveal>
+      <p class="flow-k mono">Intended integration · one verified pathway per hospital, not a cable to every bed</p>
+      <ol class="flow-nodes">
+        <li><b>Bedside devices</b><span>ventilators · monitors</span></li>
+        <li><b>Approved feed</b><span>e.g. an MDIP such as Philips Capsule</span></li>
+        <li class="fn-pm"><b>Edge Connector</b><span>inside the hospital network: verifies patient, bed, time, units</span></li>
+        <li class="fn-pm"><b>Canonical data</b><span>one standard format</span></li>
+        <li class="fn-pm"><b>PulseMind</b><span>align · analyse · estimate · prompt</span></li>
+        <li><b>ICU workstation</b><span>web dashboard, read-only</span></li>
+      </ol>
+      <div class="flow-track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+      <p class="flow-foot mono"><span class="nb">✕ No return path.</span> Data moves one way. Not yet connected to live hospital systems.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────── 08 · Roadmap ───────────────── -->
+<section class="road" id="roadmap" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§08 — Roadmap</p>
+      <h2 class="display" data-split><span class="line">Six phases.</span><span class="line"><em>Every gate can say stop.</em></span></h2>
+      <p class="lede" data-reveal>Each phase answers one uncertainty, then decides whether to proceed, repeat, change direction or stop.</p>
+    </div>
+
+    <ol class="phases">
+      <li class="phase is-now" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 1 <em>We are here</em></p>
+        <h3>Public-data proof of concept</h3>
+        <p>Define the first target and horizon, build an initial model on MIMIC-IV, and connect it to an early dashboard.</p>
+      </li>
+      <li class="phase" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 2</p>
+        <h3>Local evaluation</h3>
+        <p>Test the model unchanged on approved, de-identified historical data from a Vietnamese hospital. Refine it only if needed.</p>
+      </li>
+      <li class="phase" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 3</p>
+        <h3>Live integration MVP</h3>
+        <p>Prove reliable data from live ICU equipment, such as a HAMILTON-C6 or S1, through an approved pathway.</p>
+      </li>
+      <li class="phase" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 4</p>
+        <h3>Primary dataset</h3>
+        <p>Link new patients’ data to confirmed respiratory events. Train, test on separate records, then lock the model.</p>
+      </li>
+      <li class="phase" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 5</p>
+        <h3>Shadow test &amp; pilot</h3>
+        <p>Run hidden predictions on live data first. If the results hold, run a controlled clinician pilot. PulseMind stays read-only throughout.</p>
+      </li>
+      <li class="phase" data-reveal>
+        <span class="ph-node" aria-hidden="true"></span>
+        <p class="ph-k mono">Phase 6</p>
+        <h3>Deployment readiness</h3>
+        <p>Put security, monitoring, support and update processes in place for a staged rollout across hospitals.</p>
+      </li>
+    </ol>
+
+    <div class="milestone" data-reveal>
+      <p class="mono">Next milestone</p>
+      <p class="ms-text">Not a deployment. A <mark>clinician-approved prediction target</mark>, a <mark>usable retrospective dataset</mark> and a <mark>locked validation protocol</mark>.</p>
+    </div>
+
+    <dl class="market" data-reveal>
+      <div><dt class="mono">Model</dt><dd>Scoped paid ICU evaluation <i>→</i> annual ICU-site licence</dd></div>
+      <div><dt class="mono">First focus</dt><dd>Private general hospitals in Ho Chi Minh City: <b>47</b> in the initial screening pool</dd></div>
+      <div><dt class="mono">Break-even</dt><dd>About <b>5</b> active ICU licences <span>(planning scenario, not a forecast)</span></dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ───────────────── 09 · Team ───────────────── -->
+<section class="team" id="team" data-theme="light">
+  <div class="wrap">
+    <div class="sec-head">
+      <p class="kicker mono">§09 — The people</p>
+      <h2 class="display" data-split><span class="line">Six builders.</span><span class="line"><em>A lot of listening.</em></span></h2>
+      <p class="lede" data-reveal>Built in Ho Chi Minh City by a team that learned to narrow its claims, expose uncertainty and turn ICU feedback into testable requirements. Each member’s waveform below is generated from their name.</p>
+    </div>
+
+    <ul class="members">
+      <li class="member" data-reveal><svg class="sig" data-name="Nguyễn Lê Phương Khánh" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Nguyễn Lê Phương Khánh</h3><p>Team lead · frontend, market analysis, design &amp; PR</p></li>
+      <li class="member" data-reveal><svg class="sig" data-name="Phạm Quang Luân" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Phạm Quang Luân</h3><p>Model development &amp; backend</p></li>
+      <li class="member" data-reveal><svg class="sig" data-name="Yoshio Nomura" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Yoshio Nomura</h3><p>Model development</p></li>
+      <li class="member" data-reveal><svg class="sig" data-name="Nguyễn Phương Trai" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Nguyễn Phương Trai</h3><p>Frontend &amp; business analysis</p></li>
+      <li class="member" data-reveal><svg class="sig" data-name="Lê Việt Hải" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Lê Việt Hải</h3><p>Graphic design &amp; public relations</p></li>
+      <li class="member" data-reveal><svg class="sig" data-name="Phạm Hoàng Bảo" viewBox="0 0 320 80" preserveAspectRatio="none" aria-hidden="true"></svg><h3>Phạm Hoàng Bảo</h3><p>Market analysis, business &amp; design</p></li>
+    </ul>
+
+    <div class="advisors">
+      <div class="adv-col" data-reveal>
+        <p class="mono adv-k">Mentor</p>
+        <p class="adv-name">Dr. Tobias Cibis</p>
+        <p class="adv-role">Lecturer, School of Computer Science, University of Technology Sydney. Strategic direction and workflow structure.</p>
+      </div>
+      <div class="adv-col" data-reveal>
+        <p class="mono adv-k">Advisors</p>
+        <p class="adv-name">Henry</p>
+        <p class="adv-role">Model development, UX/UI and technical feasibility.</p>
+        <p class="adv-name">Dr. Bosco Tran</p>
+        <p class="adv-role">Healthcare-data analysis and domain understanding.</p>
+      </div>
+      <div class="adv-col" data-reveal>
+        <p class="mono adv-k">Expert contributors</p>
+        <p class="adv-name">Dr. Mai Hữu Xuân</p>
+        <p class="adv-role">Hospital connections and context.</p>
+        <p class="adv-name">Dr. Tuấn</p>
+        <p class="adv-role">Clinical knowledge, workflows and infrastructure.</p>
+      </div>
+    </div>
+    <p class="footnote mono">Advisors and contributors are not core team members. Their input is not clinical validation, hospital endorsement or regulatory approval.</p>
+  </div>
+</section>
+
+<!-- ───────────────── 10 · Call to action ───────────────── -->
+<section class="cta" id="partner" data-theme="dark">
+  <canvas id="ctaWave" aria-hidden="true"></canvas>
+  <div class="wrap cta-inner">
+    <p class="kicker mono">§10 — Work with us</p>
+    <h2 class="display cta-title" data-split><span class="line">We’re looking for</span><span class="line"><em>one ICU to start with.</em></span></h2>
+    <ol class="asks">
+      <li data-reveal><span class="mono">01</span><p>A qualified <strong>adult-ICU hospital partner</strong> to assess whether retrospective data is feasible.</p></li>
+      <li data-reveal><span class="mono">02</span><p><strong>Mentorship</strong> on clinical, regulatory, data-governance and hospital-integration questions.</p></li>
+      <li data-reveal><span class="mono">03</span><p><strong>Hard questions</strong> about our prediction target, evidence gates and evaluation-to-licence assumptions.</p></li>
+    </ol>
+    <div class="cta-actions" data-reveal>
+      <a class="btn btn-signal btn-xl" href="mailto:khanh.nguyenl3ph@hcmut.edu.vn?subject=PulseMind%20%E2%80%94%20partnership">Write to the team <i aria-hidden="true">→</i></a>
+      <span class="mono cta-mail">khanh.nguyenl3ph@hcmut.edu.vn</span>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <p class="foot-word" aria-hidden="true">PulseMind</p>
+    <div class="wrap foot-row mono">
+      <p>PulseMind is a proof-of-concept prototype. It is not a medical device, is not connected to live hospital systems, and has not been clinically validated. All patient data on this site is simulated.</p>
+      <p>Bach Khoa Innovation 2026 · University category<br>© 2026 PulseMind team · Ho Chi Minh City</p>
+    </div>
+  </footer>
+</section>
+
+</main>
+
+<script src="assets/js/prototype.js" defer></script>
+<script src="assets/js/main.js" defer></script>
+</body>
+</html>
