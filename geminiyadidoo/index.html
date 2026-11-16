@@ -1,0 +1,1314 @@
+<!DOCTYPE html>
+<html lang="en" data-cvd-mode="default">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseMind — AI Clinical Decision Support for Adult ICU Respiratory Care</title>
+  <meta name="description" content="PulseMind is a read-only, clinician-controlled AI decision-support system for early detection of respiratory deterioration in mechanically ventilated adult ICU patients. Bach Khoa Innovation 2026 Grand Finalist." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ========================================================================
+       TOP CLINICAL TELEMETRY RIBBON
+       ======================================================================== -->
+  <div class="telemetry-ribbon">
+    <div class="telemetry-ribbon__inner">
+      <div class="telemetry-ribbon__left">
+        <span class="pulse-dot"></span>
+        <span class="ribbon-tag">BACH KHOA INNOVATION 2026 // GRAND FINALIST</span>
+        <span class="ribbon-divider">|</span>
+        <span>SYS.BOUNDARY: READ-ONLY · NON-AUTONOMOUS CDS</span>
+      </div>
+      <div class="telemetry-ribbon__right">
+        <span>SURVEY COHORT: <strong>N = 36 ICU CLINICIANS (UPDATED)</strong></span>
+        <span class="ribbon-divider">|</span>
+        <span>UNIT CLOCK: <strong id="topLiveClock">21:15:00 ICT</strong></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================
+       STICKY NAVIGATION HEADER
+       ======================================================================== -->
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a href="#top" class="brand-logo" aria-label="PulseMind Home">
+        <div class="brand-logo__mark">
+          <svg class="brand-logo__svg" viewBox="0 0 215 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <text x="0" y="26" fill="#C8102E" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="22" letter-spacing="1.2">PULSE</text>
+            <text x="77" y="26" fill="#0C0E12" font-family="'Plus Jakarta Sans', sans-serif" font-weight="800" font-size="22" letter-spacing="1.2">MIND</text>
+            <path d="M144 19 H156 L161 7 L167 30 L173 4 L179 24 L183 16 H204" stroke="#C8102E" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="204" cy="16" r="3" fill="#C8102E"/>
+          </svg>
+        </div>
+        <span class="brand-logo__badge">Read-Only · CDS</span>
+      </a>
+
+      <nav class="site-nav" aria-label="Primary Navigation">
+        <a href="#workflow" class="site-nav__link">01. Workflow</a>
+        <a href="#prototype" class="site-nav__link">02. Live Prototype</a>
+        <a href="#survey" class="site-nav__link">03. N=36 Survey</a>
+        <a href="#architecture" class="site-nav__link">04. Architecture</a>
+        <a href="#landscape" class="site-nav__link">05. Landscape</a>
+        <a href="#roadmap" class="site-nav__link">06. Roadmap</a>
+        <a href="#team" class="site-nav__link">07. Team</a>
+      </nav>
+
+      <a href="#validation-partner" class="header-cta">
+        <span>Validation Partner</span>
+        <span>→</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- ========================================================================
+       MAIN SWISS ARCHITECTURAL CONTAINER
+       ======================================================================== -->
+  <main id="top" class="swiss-container">
+
+    <!-- ======================================================================
+         HERO SECTION: EDITORIAL STATEMENT + INTERACTIVE WAVEFORM STAGE
+         ====================================================================== -->
+    <section class="hero-grid">
+      <div class="hero-left">
+        <div>
+          <div class="hero-meta-pills">
+            <span class="meta-pill meta-pill--crimson">ADULT MECHANICALLY VENTILATED ICU</span>
+            <span class="meta-pill">PROOF-OF-CONCEPT PROTOTYPE</span>
+            <span class="meta-pill">FDA 2026 CDS DESIGN REFERENCE</span>
+          </div>
+
+          <h1 class="hero-h1">
+            Taming the <span class="crimson-highlight">crimson alarm storm</span> into time-aligned clinical foresight.
+          </h1>
+
+          <p class="hero-subtitle">
+            Deterioration in mechanically ventilated ICU patients rarely suffers from a lack of data—it suffers from <strong>fragmented point-in-time streams</strong> across ventilators, bedside monitors, and laboratories. <strong>PulseMind</strong> aligns longitudinal multi-source signals into a prioritised, explainable, and strictly <strong>read-only</strong> review workflow—so clinicians know <em>who</em> to review first and <em>why</em>, without ever surrendering clinical control.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#prototype" class="btn-crimson">
+              <span>Launch Interactive 3-Screen Prototype</span>
+              <span>↗</span>
+            </a>
+            <a href="#survey" class="btn-outline">
+              <span>Explore Updated N=36 ICU Survey</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="hero-guardrail-box">
+          <div class="guardrail-item">
+            <span class="guardrail-icon">01</span>
+            <div>
+              <strong>Clinical Decision Support Only:</strong> Presents target-specific risk trajectories, ranked contributing drivers, and explicit data-quality states—never a diagnosis or treatment order.
+            </div>
+          </div>
+          <div class="guardrail-item">
+            <span class="guardrail-icon">02</span>
+            <div>
+              <strong>Strictly Non-Autonomous:</strong> Zero pathway to alter ventilator settings or silence bedside alarms. Every clinical judgement remains 100% in human hands.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Right: Live Interactive Telemetry & Waveform Visualizer -->
+      <div class="hero-right">
+        <div class="telemetry-panel-header">
+          <div class="telemetry-panel-title">
+            <span class="pulse-dot pulse-dot--crimson"></span>
+            <span>TELEMETRY SIMULATION // BED PT-1002</span>
+          </div>
+          <div class="mode-switch-group" role="tablist" aria-label="Waveform Simulation Mode">
+            <button type="button" class="mode-switch-btn" id="btnModeChaos" data-sim-mode="chaos">
+              Fragmented ICU (4.25 Sources)
+            </button>
+            <button type="button" class="mode-switch-btn active" id="btnModeAligned" data-sim-mode="aligned">
+              PulseMind Time-Aligned
+            </button>
+          </div>
+        </div>
+
+        <div class="waveform-stage">
+          <canvas id="pulseCanvas"></canvas>
+          <div class="waveform-overlay-HUD">
+            <div class="hud-callout">
+              <span class="hud-callout__label">STREAM STATE</span>
+              <span class="hud-callout__val" id="hudStreamState">CHRONOLOGICALLY ALIGNED · 60M WINDOW</span>
+            </div>
+            <div class="hud-callout">
+              <span class="hud-callout__label">SELECTIVE PROMPT ENGINE</span>
+              <span class="hud-callout__val hud-callout__val--crimson" id="hudPromptState">HIGH RISK (68.2%) · RR + PEEP DRIVEN</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="telemetry-panel-cards">
+          <div class="telemetry-mini-card telemetry-mini-card--highlight">
+            <div class="telemetry-mini-card__kicker">PRIMARY CONTRIBUTING DRIVER</div>
+            <div class="telemetry-mini-card__metric">64.7% <span style="font-size: 1rem; font-family: var(--font-mono); color: #FDA4AF;">Resp. Rate</span></div>
+            <p class="telemetry-mini-card__desc">
+              Followed by PEEP (50.4%) &amp; Driving Pressure (41.4%). Model influences only—not confirmed etiology.
+            </p>
+          </div>
+          <div class="telemetry-mini-card">
+            <div class="telemetry-mini-card__kicker">DATA INTEGRITY TRI-SHARE</div>
+            <div class="telemetry-mini-card__metric">81.6% <span style="font-size: 1rem; font-family: var(--font-mono); color: #94A3B8;">Measured</span></div>
+            <p class="telemetry-mini-card__desc">
+              Imputed Share: <strong>18.4%</strong> · Documentation Share: <strong>77.5%</strong>. Explicit provenance prevents blind reliance.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         CRIMSON IMPACT PROOF BAND (UPDATED N=36 SURVEY & TECHNICAL SPECS)
+         ====================================================================== -->
+    <section class="crimson-proof-band" aria-label="Key Evidence and Project Metrics">
+      <div class="proof-cell">
+        <span class="proof-cell__tag">UPDATED EXPLORATORY SURVEY</span>
+        <div class="proof-cell__number">N = 36</div>
+        <p class="proof-cell__label">
+          Frontline ICU clinicians (<strong>22 Nurses [61.1%]</strong> &amp; <strong>14 Physicians [38.9%]</strong>) with direct adult mechanical ventilation experience across 2 HCMC hospitals.
+        </p>
+      </div>
+      <div class="proof-cell">
+        <span class="proof-cell__tag">MULTI-SOURCE FRAGMENTATION</span>
+        <div class="proof-cell__number">4.25 / 6</div>
+        <p class="proof-cell__label">
+          Average clinical information source groups consulted per clinician during respiratory review (ventilators, bedside exams, monitors, ABGs, flowsheets).
+        </p>
+      </div>
+      <div class="proof-cell">
+        <span class="proof-cell__tag">CONDITIONAL RECEPTION</span>
+        <div class="proof-cell__number">77.8%</div>
+        <p class="proof-cell__label">
+          <strong>28 / 36</strong> clinicians rated PulseMind's approach <em>"Useful"</em> or <em>"Very Useful"</em> (and 22.2% <em>"Moderately Useful"</em>) if validated safe &amp; workflow-compatible.
+        </p>
+      </div>
+      <div class="proof-cell">
+        <span class="proof-cell__tag">ALARM BURDEN &amp; PROMPT DESIGN</span>
+        <div class="proof-cell__number">95.5%</div>
+        <p class="proof-cell__label">
+          Identified <strong>excessive prompting</strong> as a top concern (21/22 in Cohort A)—driving PulseMind's selective High/Critical review prompt threshold.
+        </p>
+      </div>
+      <div class="proof-cell">
+        <span class="proof-cell__tag">EXPLORATORY MIMIC-IV PIPELINE</span>
+        <div class="proof-cell__number">4M × 109</div>
+        <p class="proof-cell__label">
+          Transformed time-series rows × features across <strong>&gt;36,000 ICU patients</strong> benchmarked on high-velocity XGBoost &amp; LightGBM architectures.
+        </p>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 01: THE CLINICAL PROBLEM & TWO-LEVEL REVIEW PATHWAY
+         ====================================================================== -->
+    <div id="workflow" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 01 // CLINICAL CONTEXT &amp; WORKFLOW HYPOTHESES</span>
+      <span>ADULT ICU RESPIRATORY REVIEW · TWO-LEVEL PATHWAY</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">The Fragmentation Paradox</span>
+        <h2 class="editorial-h2">
+          The challenge in the ICU is not a scarcity of sensors—it is <em>assembling time under alarm pressure</em>.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        When caring for mechanically ventilated adults, clinicians must synthesize evolving trends across separate devices while managing frequent threshold-based alarms (Nasirmoghadas et al., 2025; Yang et al., 2024). PulseMind replaces manual mental stitching with a disciplined <strong>Two-Level Review Pathway</strong>.
+      </p>
+    </section>
+
+    <section class="problem-bento">
+      <!-- Left 7 cols: 6 Information Sources from Updated N=36 Survey -->
+      <div class="bento-cell bento-cell--span-7">
+        <span class="editorial-kicker">Empirical Workflow Mapping (N = 36 Survey)</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">
+          6 Disconnected Information Groups—Averaging 4.25 Sources per Review
+        </h3>
+        <p style="font-size: 0.9rem; color: var(--slate-600);">
+          Across all 36 surveyed ICU clinicians at People's Hospital 115 (N=22) and Nam Sài Gòn Hospital (N=14), bedside nurses drive continuous monitoring and early detection while physicians synthesize multi-source trajectories for clinical prioritization:
+        </p>
+
+        <div class="source-fragmentation-diagram">
+          <div class="source-node">
+            <div class="source-node__pct">01 · VENTILATOR</div>
+            <div class="source-node__title">Ventilator Screen &amp; Alarms</div>
+            <div class="source-node__meta">100% in N=22 · Point-in-time PEEP, FiO₂, RR, Vₜ, ΔP, V̇E</div>
+          </div>
+          <div class="source-node">
+            <div class="source-node__pct">02 · BEDSIDE EXAM</div>
+            <div class="source-node__title">Direct Patient Observation</div>
+            <div class="source-node__meta">95.5% in N=22 · 92.9% in N=14 insist on preserving</div>
+          </div>
+          <div class="source-node">
+            <div class="source-node__pct">03 · MONITOR</div>
+            <div class="source-node__title">Bedside Vital-Sign Monitor</div>
+            <div class="source-node__meta">86.4% in N=22 · Continuous SpO₂, HR, arterial BP</div>
+          </div>
+          <div class="source-node">
+            <div class="source-node__pct">04 · LABORATORY</div>
+            <div class="source-node__title">Arterial Blood Gas (ABG) &amp; Labs</div>
+            <div class="source-node__meta">Delayed asynchronous snapshots; pH, PaO₂, PaCO₂</div>
+          </div>
+          <div class="source-node">
+            <div class="source-node__pct">05 · FLOWSHEET</div>
+            <div class="source-node__title">Clinical Record &amp; Charting</div>
+            <div class="source-node__meta">Manual documentation cadence &amp; historical notes</div>
+          </div>
+          <div class="source-node">
+            <div class="source-node__pct">06 · HANDOVER</div>
+            <div class="source-node__title">Shift Handover &amp; Peer Synthesis</div>
+            <div class="source-node__meta">Day/night transition context &amp; verbal clinical trajectory</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right 5 cols: Crimson Two-Level Review Pathway -->
+      <div class="bento-cell bento-cell--span-5 bento-cell--crimson">
+        <span class="ribbon-tag" style="display: inline-block; margin-bottom: 0.85rem; font-family: var(--font-mono); font-size: 0.72rem;">PROPOSED WORKFLOW ARCHITECTURE</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2.15rem; line-height: 1.1; margin-bottom: 0.75rem;">
+          The Two-Level Review Pathway
+        </h3>
+        <p style="font-size: 0.9rem; opacity: 0.92;">
+          Separating unit-wide triage from deep patient inspection prevents cognitive overload while keeping existing bedside alarms intact.
+        </p>
+
+        <div class="pathway-steps">
+          <div class="pathway-step">
+            <div class="pathway-step__num">LEVEL 01 // UNIT-WIDE TRIAGE</div>
+            <div class="pathway-step__title">Prioritised Patient Overview Board</div>
+            <p class="pathway-step__text">
+              Organizes ventilated ICU beds by review state (<em>Pending Review</em> ranked before <em>Reviewed</em>) and target-specific risk level, with explicit flags when data sufficiency is limited or unknown.
+            </p>
+          </div>
+          <div class="pathway-step">
+            <div class="pathway-step__num">LEVEL 02 // PATIENT &amp; PARAMETER DEEP-DIVE</div>
+            <div class="pathway-step__title">Time-Aligned Trajectory &amp; Provenance</div>
+            <p class="pathway-step__text">
+              Synchronizes ventilator, physiological, and lab timelines; ranks model-contributing variables; surfaces source-traceable explanations; and distinguishes <em>Measured</em> vs. <em>Carried-Forward</em> readings.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom 3 cells: Testable Workflow Hypotheses (Page 4 of Report) -->
+      <div class="bento-cell bento-cell--span-4 bento-cell--tinted">
+        <span class="editorial-kicker">Hypothesis H1 &amp; H2</span>
+        <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Assembly Time &amp; Early Consistency</h4>
+        <p style="font-size: 0.86rem; color: var(--slate-700);">
+          A time-aligned view of ventilator, physiological, and lab data may reduce manual information-assembly time without reducing review accuracy, supporting earlier and more consistent identification of patients requiring review.
+        </p>
+      </div>
+      <div class="bento-cell bento-cell--span-4">
+        <span class="editorial-kicker">Hypothesis H3</span>
+        <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Selective Prompting Without Fatigue</h4>
+        <p style="font-size: 0.86rem; color: var(--slate-700);">
+          Applying strict target-specific criteria (<em>High</em> or <em>Critical</em> only) before displaying a focused in-interface review prompt may support prioritisation without creating an unacceptable additional attention burden.
+        </p>
+      </div>
+      <div class="bento-cell bento-cell--span-4 bento-cell--tinted">
+        <span class="editorial-kicker">Hypothesis H4 &amp; H5</span>
+        <h4 style="font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem;">Calibrated Reliance via Provenance</h4>
+        <p style="font-size: 0.86rem; color: var(--slate-700);">
+          Explicit data-quality limitations, unavailable-data states, and ranked model-contributing factors may help clinicians recognise when an assessment should <em>not</em> be relied upon and why a case was prioritised.
+        </p>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 02: LIVE INTERACTIVE 3-SCREEN CLINICAL PROTOTYPE
+         ====================================================================== -->
+    <div id="prototype" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 02 // INTERACTIVE 3-SCREEN CLINICAL WORKSTATION PROTOTYPE</span>
+      <span>CLICK PATIENTS, FILTER STATES, TEST WCAG 2.2 AA CVD MODES &amp; INSPECT PROVENANCE</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Live Functional Prototype Replica</span>
+        <h2 class="editorial-h2">
+          Experience the <em>three-screen</em> clinician review workflow.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        Built directly from PulseMind's BKI 2026 workstation specification (Figures 4–8). Switch between <strong>1. Patient Overview</strong>, <strong>2. Patient Detail</strong>, <strong>3. Parameter Provenance</strong>, and <strong>In-Product Guidance</strong>. All scores are illustrative simulated values demonstrating interface architecture and explicit uncertainty handling.
+      </p>
+    </section>
+
+    <section class="prototype-showcase">
+      <!-- Top Control Bar for Prototype -->
+      <div class="prototype-controls-bar">
+        <div class="screen-tabs" role="tablist" aria-label="Prototype Screens">
+          <button type="button" class="screen-tab-btn active" data-screen="overview">
+            <span class="screen-tab-btn__num">01</span>
+            <span>Patient Overview (Unit Board)</span>
+          </button>
+          <button type="button" class="screen-tab-btn" data-screen="detail">
+            <span class="screen-tab-btn__num">02</span>
+            <span id="tabDetailLabel">Patient Detail (PT-1002)</span>
+          </button>
+          <button type="button" class="screen-tab-btn" data-screen="parameter">
+            <span class="screen-tab-btn__num">03</span>
+            <span id="tabParamLabel">Parameter Detail (Respiratory rate)</span>
+          </button>
+          <button type="button" class="screen-tab-btn" data-screen="guidance">
+            <span class="screen-tab-btn__num">?</span>
+            <span>How to Use PulseMind</span>
+          </button>
+        </div>
+
+        <div class="workstation-toggles">
+          <div class="toggle-Cluster">
+            <label for="cvdSelect">WCAG 2.2 Color Encoding:</label>
+            <select id="cvdSelect" class="ui-select" aria-label="Color Vision Deficiency Encoding">
+              <option value="default">Standard Clinical Palette</option>
+              <option value="deuteranopia">Deuteranopia / Protanopia Safe</option>
+              <option value="high-contrast">High-Contrast Border + Icon</option>
+            </select>
+          </div>
+          <button type="button" id="wsThemeToggle" class="theme-pill-btn">
+            <span>☾ Night-Shift Dark Mode</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- The Workstation Container -->
+      <div class="workstation-frame" id="workstationFrame">
+        <!-- Workstation Top Bar -->
+        <div class="ws-topbar">
+          <div class="ws-brand-left">
+            <div class="ws-logo-text">
+              <span style="color: var(--crimson-core);">PULSE</span><span>MIND</span>
+              <svg width="28" height="16" viewBox="0 0 28 16" fill="none">
+                <path d="M1 9 H7 L10 2 L14 14 L18 3 L21 11 H27" stroke="#E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </div>
+            <span class="ws-readonly-pill">READ-ONLY · DECISION SUPPORT</span>
+          </div>
+
+          <div class="ws-clock-right">
+            <div>
+              <span class="ws-clock-label">UNIT CLOCK · LOCAL</span>
+              <strong>21:15</strong> <span style="opacity: 0.75;">Sun, 23 Aug 2026</span>
+            </div>
+            <button type="button" class="ws-avatar" id="wsGuidanceQuickBtn" title="Open In-Product Guidance">AC</button>
+          </div>
+        </div>
+
+        <!-- SCREEN 1: PATIENT OVERVIEW -->
+        <div class="ws-body" id="wsScreenOverview">
+          <div class="ws-filter-bar">
+            <div class="ws-search-box">
+              <label for="wsPatientSearch">SEARCH PATIENT ID</label>
+              <input type="text" id="wsPatientSearch" class="ws-search-input" placeholder="e.g. PT-1002 or PT-2006" />
+            </div>
+
+            <div class="ws-filter-rows">
+              <div class="ws-filter-row">
+                <span class="ws-filter-row__label">REVIEW</span>
+                <button type="button" class="ws-chip ws-chip--pending" data-filter-type="review" data-filter-val="PENDING">
+                  ⚑ PENDING REVIEW <span id="countPending">6</span>
+                </button>
+                <button type="button" class="ws-chip ws-chip--reviewed" data-filter-type="review" data-filter-val="REVIEWED">
+                  ✓ REVIEWED <span id="countReviewed">2</span>
+                </button>
+                <button type="button" class="ws-chip" style="background:#E2E8F0; color:#1E293B;" id="wsResetFiltersBtn">
+                  ↺ SHOW ALL (8)
+                </button>
+              </div>
+              <div class="ws-filter-row">
+                <span class="ws-filter-row__label">DATA</span>
+                <button type="button" class="ws-chip ws-chip--datalim" data-filter-type="data" data-filter-val="DATA-LIMITED">
+                  ⚠ DATA-LIMITED 1
+                </button>
+                <button type="button" class="ws-chip ws-chip--dataunk" data-filter-type="data" data-filter-val="DATA SUFFICIENCY UNKNOWN">
+                  ⚠ DATA SUFFICIENCY UNKNOWN 2
+                </button>
+              </div>
+              <div class="ws-filter-row">
+                <span class="ws-filter-row__label">RISK</span>
+                <button type="button" class="ws-chip ws-chip--crit" data-filter-type="risk" data-filter-val="CRITICAL">
+                  ! CRITICAL 3
+                </button>
+                <button type="button" class="ws-chip ws-chip--high" data-filter-type="risk" data-filter-val="HIGH">
+                  ▲ HIGH 2
+                </button>
+                <button type="button" class="ws-chip ws-chip--med" data-filter-type="risk" data-filter-val="MEDIUM">
+                  ◆ MEDIUM 1
+                </button>
+                <button type="button" class="ws-chip ws-chip--low" data-filter-type="risk" data-filter-val="LOW">
+                  Θ LOW 1
+                </button>
+                <button type="button" class="ws-chip ws-chip--na" data-filter-type="risk" data-filter-val="UNAVAILABLE">
+                  ? RISK LEVEL UNAVAILABLE 1
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="ws-overview-layout">
+            <div>
+              <div class="ws-table-section-title">
+                <span>Pending review</span>
+                <span style="background:#CBD5E1; color:#0F172A; padding:1px 7px; border-radius:99px; font-family:var(--font-mono); font-size:0.7rem;" id="pendingListBadge">6</span>
+                <span style="font-weight:400; opacity:0.75;">ranked first by risk level and score</span>
+              </div>
+              <div class="ws-patient-list" id="wsPendingContainer"></div>
+
+              <div class="ws-table-section-title" style="margin-top: 1.35rem;">
+                <span>Reviewed</span>
+                <span style="background:#CBD5E1; color:#0F172A; padding:1px 7px; border-radius:99px; font-family:var(--font-mono); font-size:0.7rem;" id="reviewedListBadge">2</span>
+              </div>
+              <div class="ws-patient-list" id="wsReviewedContainer"></div>
+            </div>
+
+            <!-- Right Summary Panel (Separates initial screening from detailed assessment, per Page 11) -->
+            <aside class="ws-summary-drawer" id="wsSummaryDrawer">
+              <!-- Populated dynamically by JS -->
+            </aside>
+          </div>
+        </div>
+
+        <!-- SCREEN 2: PATIENT DETAIL (Replica of Figure 6) -->
+        <div class="ws-body" id="wsScreenDetail" style="display: none;">
+          <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- SCREEN 3: PARAMETER DETAIL & PROVENANCE (Replica of Figure 7) -->
+        <div class="ws-body" id="wsScreenParameter" style="display: none;">
+          <!-- Populated dynamically by JS -->
+        </div>
+
+        <!-- SCREEN 4: IN-PRODUCT GUIDANCE (Replica of Figure 5) -->
+        <div class="ws-body" id="wsScreenGuidance" style="display: none;">
+          <div style="max-width: 720px; margin: 0 auto; padding: 1rem 0;">
+            <button type="button" class="ws-param-link" id="backFromGuidanceBtn" style="margin-bottom: 1rem; display:inline-block;">
+              ← Back to overview
+            </button>
+            <h3 style="font-size: 1.55rem; font-weight: 800; margin-bottom: 0.25rem;">How to use PulseMind</h3>
+            <p style="font-size: 0.84rem; opacity: 0.75; margin-bottom: 1.25rem;">
+              Reopened from your profile menu. Nothing on this page changes what you are looking at.
+            </p>
+
+            <div class="ws-card" style="margin-bottom: 1rem;">
+              <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">What PulseMind is</h4>
+              <p style="font-size: 0.85rem; margin-bottom: 0.5rem; line-height: 1.55;">
+                It shows a respiratory-risk assessment for the adult ventilated patients on your unit, so you can decide who to look at first. It is <strong>read-only</strong>: nothing you do here is written to the patient record, no order is placed, and no clinician is notified.
+              </p>
+              <p style="font-size: 0.85rem; line-height: 1.55;">
+                It supports your review. It does not make decisions, and it does not replace looking at the patient.
+              </p>
+            </div>
+
+            <div class="ws-card" style="margin-bottom: 1rem;">
+              <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">The three screens</h4>
+              <ol style="padding-left: 1.25rem; font-size: 0.85rem; line-height: 1.6; display:flex; flex-direction:column; gap:0.5rem;">
+                <li><strong>Patient overview</strong> — the whole unit, ranked. Selecting a card shows a summary panel beside the board; <em>Open patient detail</em> is what actually opens the patient. Selecting and opening are two separate actions on purpose.</li>
+                <li><strong>Patient detail</strong> — one patient: the current score and its risk level, what is driving it, the ventilator parameters from the latest reading, and the review panel.</li>
+                <li><strong>Parameter detail</strong> — one parameter over the recent window, and where each value came from (<em>Measured</em>, <em>Carried forward</em>, or <em>Population reference</em>).</li>
+              </ol>
+            </div>
+
+            <div class="ws-card">
+              <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.5rem;">How the board is ordered</h4>
+              <p style="font-size: 0.85rem; line-height: 1.55;">
+                Patients needing review come first, then by risk level, then by risk score. Missing or uncertain information is shown through explicit states such as <code>RISK LEVEL UNAVAILABLE</code> or <code>DATA SUFFICIENCY UNKNOWN</code> rather than being left blank.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 03: UPDATED N=36 TWO-SITE ICU CLINICIAN SURVEY EXPLORER
+         ====================================================================== -->
+    <div id="survey" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 03 // UPDATED EMPIRICAL FIELD RESEARCH (N = 36 ICU PROFESSIONALS)</span>
+      <span>COHORT A (N=22 NHÂN DÂN 115) + COHORT B (N=14 NAM SÀI GÒN HOSPITAL)</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Newly Updated Survey Synthesis (N = 36)</span>
+        <h2 class="editorial-h2">
+          Grounded in <em>36 frontline ICU voices</em>—analyzed with strict methodological discipline.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        100% of respondents (<strong>22 ICU nurses [61.1%]</strong> and <strong>14 ICU physicians [38.9%]</strong>) reported direct care or assessment of mechanically ventilated adult ICU patients within the past 24 months. Because Cohort A (N=22) and Cohort B (N=14) used distinct survey instruments, comparable variables are synthesized while non-equivalent scales and open-ended responses are preserved separately.
+      </p>
+    </section>
+
+    <section class="survey-explorer-grid">
+      <aside class="survey-sidebar">
+        <div>
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; color: var(--slate-500); margin-bottom: 0.75rem;">
+            SELECT SURVEY DATASET VIEW
+          </div>
+          <div class="cohort-tab-stack" role="tablist">
+            <button type="button" class="cohort-btn active" data-cohort="combined">
+              <span class="cohort-btn__tag">COMBINED SAMPLE · N = 36</span>
+              <span class="cohort-btn__title">Executive Overview &amp; Multi-Source Synthesis</span>
+            </button>
+            <button type="button" class="cohort-btn" data-cohort="cohort22">
+              <span class="cohort-btn__tag">COHORT A · N = 22 (NHÂN DÂN 115)</span>
+              <span class="cohort-btn__title">Trust Conditions, Open Pain Points &amp; Prompt Burden</span>
+            </button>
+            <button type="button" class="cohort-btn" data-cohort="cohort14">
+              <span class="cohort-btn__tag">COHORT B · N = 14 (NAM SÀI GÒN)</span>
+              <span class="cohort-btn__title">3-Screen Prototype Ratings &amp; Safety Preservation</span>
+            </button>
+            <button type="button" class="cohort-btn" data-cohort="deepdive">
+              <span class="cohort-btn__tag">METHODOLOGICAL DEEP-DIVE · SEC 3, 4 &amp; 8</span>
+              <span class="cohort-btn__title">Clinical Triggers, Shift Handover &amp; UI Component Critique</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="survey-method-note">
+          <strong style="color: var(--crimson-core); display:block; margin-bottom: 0.25rem; font-family: var(--font-mono); font-size: 0.72rem;">INTERPRETATION BOUNDARY</strong>
+          These findings provide exploratory local design direction. Conditional usefulness ratings (<strong>28/36 = 77.8%</strong>) assume the solution is already proven safe and workflow-compatible; they do not establish clinical validity, alarm reduction, or procurement commitment.
+        </div>
+      </aside>
+
+      <div class="survey-main-stage" id="surveyStageContent">
+        <!-- Populated dynamically by JS based on selected cohort tab -->
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 04: SYSTEM BOUNDARY, HOSPITAL INTEGRATION & ML/RAG ENGINE
+         ====================================================================== -->
+    <div id="architecture" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 04 // SYSTEM ARCHITECTURE, DEVICE INTEGRATION &amp; ML/RAG PIPELINE</span>
+      <span>PHILIPS CAPSULE MDIP PATHWAY · MIMIC-IV 4M×109 XGBOOST · SOURCE-CONSTRAINED RAG</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Engineering &amp; Clinical Boundary</span>
+        <h2 class="editorial-h2">
+          One verified hospital feed in. <em>Explainable, source-traceable</em> decision support out.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        Rather than wiring directly to heterogeneous bedside ventilators with conflicting protocols and sampling rates, PulseMind ingests a single authorised downstream feed inside the hospital's computing boundary.
+      </p>
+    </section>
+
+    <!-- Interactive SVG Architecture Blueprint Switcher (Figures 1, 2 & 3) -->
+    <section style="padding: 2.25rem 2.5rem; background-color: var(--slate-950); color: var(--white-pure); border-bottom: 1px solid var(--grid-line);">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span style="font-family: var(--font-mono); font-size: 0.7rem; color: #FDA4AF; letter-spacing: 0.08em; text-transform: uppercase; display: block; margin-bottom: 0.25rem;">
+            INTERACTIVE ARCHITECTURAL SCHEMATICS (FIGURES 1, 2 &amp; 3)
+          </span>
+          <h3 style="font-family: var(--font-serif); font-size: 1.85rem; font-weight: 400;" id="blueprintTitle">
+            Figure 2 — Intended Hospital MDIP &amp; Edge Connector Architecture
+          </h3>
+        </div>
+        <div class="mode-switch-group" role="tablist" aria-label="Architecture Blueprint Selector">
+          <button type="button" class="mode-switch-btn" data-blueprint="fig1">
+            Fig 1. Level 0 System Boundary
+          </button>
+          <button type="button" class="mode-switch-btn active" data-blueprint="fig2">
+            Fig 2. Capsule MDIP Integration
+          </button>
+          <button type="button" class="mode-switch-btn" data-blueprint="fig3">
+            Fig 3. Level 1 Temporal Process
+          </button>
+        </div>
+      </div>
+
+      <div id="blueprintCanvasContainer" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.14); padding: 1.5rem; border-radius: 4px; overflow-x: auto;">
+        <!-- Populated dynamically with crisp interactive SVG schematic by JS -->
+      </div>
+    </section>
+
+    <section class="arch-grid">
+      <!-- Left Column: Hospital Integration & Level 1 Pipeline -->
+      <div class="arch-col">
+        <span class="editorial-kicker">Figures 1, 2 &amp; 3 // Integration &amp; Process Architecture</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">
+          From Bedside Ventilators to Canonical Time-Series
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--slate-600);">
+          Designed for hospitals with an approved Medical Device Integration Platform (such as <strong>Philips Capsule Neuron / MDIP</strong> or IntelliBridge), keeping all patient data within the hospital-approved computing environment.
+        </p>
+
+        <div class="pipeline-flow">
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">01</div>
+            <div>
+              <h4 style="font-size: 0.96rem; font-weight: 700; margin-bottom: 0.2rem;">ICU Device Sources &amp; Connectivity Hub</h4>
+              <p style="font-size: 0.82rem; color: var(--slate-600);">
+                Mechanical ventilators (e.g., HAMILTON-C6/S1) and bedside monitors stream heterogeneous formats into the hospital's existing Connectivity Hub &amp; MDIP platform.
+              </p>
+            </div>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">02</div>
+            <div>
+              <h4 style="font-size: 0.96rem; font-weight: 700; margin-bottom: 0.2rem;">PulseMind Edge Connector &amp; Canonical Format</h4>
+              <p style="font-size: 0.82rem; color: var(--slate-600);">
+                Deployed inside the hospital's authorised network. Verifies patient/bed linkage, timestamps, units, and completeness before standardising into the <strong>PulseMind Canonical Data Format</strong>.
+              </p>
+            </div>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">03</div>
+            <div>
+              <h4 style="font-size: 0.96rem; font-weight: 700; margin-bottom: 0.2rem;">Temporal Window Alignment &amp; Feature Extraction</h4>
+              <p style="font-size: 0.82rem; color: var(--slate-600);">
+                Aligns chronological measurements across defined time windows, deriving rates of change, variability, cross-parameter relationships, and explicit missing-data indicators.
+              </p>
+            </div>
+          </div>
+
+          <div class="pipeline-node">
+            <div class="pipeline-node__step">04</div>
+            <div>
+              <h4 style="font-size: 0.96rem; font-weight: 700; margin-bottom: 0.2rem;">Target-Specific Risk Model &amp; Selective Prompt Gate</h4>
+              <p style="font-size: 0.82rem; color: var(--slate-600);">
+                Estimates probability for a single clinically locked respiratory target and horizon. Only <strong>High</strong> or <strong>Critical</strong> assessments trigger a focused review prompt; lower-risk states remain quietly accessible.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Exploratory MIMIC-IV ML Work & Data Integrity Tri-Share -->
+      <div class="arch-col" style="background-color: var(--white-paper);">
+        <span class="editorial-kicker">Section 3.2 // Exploratory ML &amp; RAG Architecture</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">
+          Answering: <em>"What is the AI model actually learning from?"</em>
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--slate-600); margin-bottom: 1.25rem;">
+          To evaluate technical feasibility prior to local hospital data access, the team executed an offline ETL and gradient-boosted decision-tree benchmark on de-identified <strong>MIMIC-IV</strong> data via PhysioNet:
+        </p>
+
+        <div style="background: var(--slate-950); color: var(--white-pure); padding: 1.35rem; font-family: var(--font-mono); font-size: 0.78rem; margin-bottom: 1.5rem; border-left: 4px solid var(--crimson-core);">
+          <div style="color: #FDA4AF; margin-bottom: 0.4rem;">// MIMIC-IV EXPLORATORY ETL &amp; MODEL BENCHMARK</div>
+          <div>• Raw Unconstrained Corpus : ~400,000,000 rows</div>
+          <div>• Extracted Target Cohort  : &gt;4,000,000 rows (&gt;36,000 distinct ICU patients)</div>
+          <div>• Transformed Matrix Shape : 4,000,000 × 109 clinical features (70/30 split)</div>
+          <div>• Model Evaluation         : Identical training across <strong>XGBoost</strong> &amp; <strong>LightGBM</strong></div>
+          <div>• MVP Engine Selection     : <strong>XGBoost</strong> selected for superior high-velocity stream ingestion speed</div>
+        </div>
+
+        <h4 style="font-size: 0.95rem; font-weight: 700; margin-bottom: 0.35rem;">
+          Three-Component Data Integrity Clarification
+        </h4>
+        <p style="font-size: 0.82rem; color: var(--slate-600);">
+          Every prediction is accompanied by three explicit integrity metrics so clinicians never mistake imputed fallbacks or charting habits for true physiology:
+        </p>
+
+        <div class="tri-share-box">
+          <div class="tri-share-card">
+            <div class="tri-share-card__title">01. Physiology Share</div>
+            <p class="tri-share-card__desc">
+              Proportion of input features reflecting direct, freshly measured physiological &amp; ventilator signals from the patient.
+            </p>
+          </div>
+          <div class="tri-share-card">
+            <div class="tri-share-card__title">02. Documentation Share</div>
+            <p class="tri-share-card__desc">
+              Accounts for whether input density reflects clinician charting frequency/writing habits rather than acute biological change.
+            </p>
+          </div>
+          <div class="tri-share-card">
+            <div class="tri-share-card__title">03. Imputed Share</div>
+            <p class="tri-share-card__desc">
+              Aggregate share of blank inputs filled via population mean/reference fallback so the model has non-empty vectors.
+            </p>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.25rem; padding: 1rem 1.15rem; border: 1px solid var(--grid-line-strong); background: var(--white-pure); font-size: 0.82rem;">
+          <strong style="color: var(--crimson-core); font-family: var(--font-mono);">POST-PREDICTION RAG EXPLANATION LAYER:</strong>
+          Operates strictly <em>after</em> numerical risk estimation. Converts structured contributing factors into concise clinical prose with version-controlled medical citations—and <strong>cannot modify or override the model's risk score</strong>.
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 05: COMPETITIVE LANDSCAPE MATRIX (FIGURE 9)
+         ====================================================================== -->
+    <div id="landscape" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 05 // COMPETITIVE LANDSCAPE &amp; DIFFERENTIATION FOCUS</span>
+      <span>DOCUMENTED PRODUCT SCOPE COMPARISON (NOT CLAIMED SUPERIORITY)</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Section 4.3 &amp; 4.4 // Porter's Differentiation Focus</span>
+        <h2 class="editorial-h2">
+          Narrow by design. Competing on <em>workflow evidence</em>, not feature bloat.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        International platforms cover adjacent ICU domains—from rule-based surveillance to pediatric capnometry and closed-loop ventilator control. PulseMind focuses strictly on <strong>read-only adult ventilation risk prioritisation, explicit data-quality states, and source-traceable explanations</strong> tailored to Vietnamese ICU workflows.
+      </p>
+    </section>
+
+    <section class="matrix-wrapper">
+      <table class="comp-table" aria-label="Competitive Landscape Matrix">
+        <thead>
+          <tr>
+            <th>Alternative &amp; Verified Primary Function</th>
+            <th>1. Multi-Source / Trend View</th>
+            <th>2. Forward-Looking Risk</th>
+            <th>3. Unit-Level Prioritisation</th>
+            <th>4. Automated Ventilator Adjustment</th>
+            <th>5. Adult Ventilation Fit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Bedside / Manual Review</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">Clinician synthesis across existing sources</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Limited / Manual</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Not documented</span></td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Shift-dependent</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— None (Manual)</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Core practice</span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Philips Capsule Surveillance</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">Streaming surveillance &amp; rule alerts (FDA K213335)</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Rule/threshold-based</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Read-only</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Etiometry Platform</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">ICU aggregation &amp; risk indices (FDA K254066)</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Outside scope</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Read-only</span></td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Adult O₂ delivery; IVCO₂ aged 0–12y</span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>CLEWICU</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">Haemodynamic instability prediction (FDA K233216)</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Outside scope</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Read-only</span></td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Haemodynamic focus</span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Hamilton INTELLiVENT-ASV</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">Closed-loop ventilation &amp; oxygenation adjustment</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Single-ventilator</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Outside scope</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Bedside device</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Closed-loop control</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Dräger SmartCare/PS</strong>
+              <div style="font-size: 0.75rem; color: var(--slate-500);">Protocolised ventilator weaning support</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--part">◐ Single-ventilator</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Outside scope</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Bedside device</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Automated weaning</span></td>
+            <td><span class="scope-symbol scope-symbol--yes">✓ Publicly documented</span></td>
+          </tr>
+          <tr class="pulsemind-row">
+            <td>
+              <strong>PulseMind (Proposed Scope)</strong>
+              <div style="font-size: 0.75rem; color: var(--crimson-deep); font-weight: 500;">Read-only respiratory-risk review workflow</div>
+            </td>
+            <td><span class="scope-symbol scope-symbol--prop">◇ Proposed; time-aligned</span></td>
+            <td><span class="scope-symbol scope-symbol--prop">◇ Proposed; target-locked</span></td>
+            <td><span class="scope-symbol scope-symbol--prop">◇ Proposed; unit board</span></td>
+            <td><span class="scope-symbol scope-symbol--no">— Strictly Read-Only</span></td>
+            <td><span class="scope-symbol scope-symbol--prop">◇ Proposed; adult ICU</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 06: 6-PHASE CONDITIONAL ROADMAP, GOVERNANCE & MARKET BEACHHEAD
+         ====================================================================== -->
+    <div id="roadmap" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 06 // SIX CONDITIONAL PHASES, REGULATORY GATES &amp; HCMC BEACHHEAD</span>
+      <span>VIETNAM AI LAW NO. 134/2025/QH15 · EVALUATION-TO-LICENCE PATHWAY</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Section 7.1 // Evidence Before Deployment</span>
+        <h2 class="editorial-h2">
+          The next value-creating milestone is <em>not</em> a live deployment—it is a <em>locked validation protocol</em>.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        PulseMind advances through six conditional gates. Each phase resolves a specific clinical, data, or integration uncertainty—and halts or iterates if predefined safety and performance criteria are not met.
+      </p>
+    </section>
+
+    <!-- 6-Phase Conditional Roadmap -->
+    <section class="roadmap-grid">
+      <div class="phase-card current-phase">
+        <div>
+          <div class="phase-num">PHASE 01 · CURRENT STAGE</div>
+          <h3 class="phase-title">Public-Data Proof of Concept</h3>
+          <p class="phase-desc">
+            Define initial respiratory target &amp; horizon; benchmark ETL and XGBoost on de-identified MIMIC-IV data; connect to the 3-screen clinician review prototype.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: Provenance &amp; reproducibility documented; no patient-care use.</div>
+      </div>
+
+      <div class="phase-card">
+        <div>
+          <div class="phase-num">PHASE 02 · NEXT MILESTONE</div>
+          <h3 class="phase-title">Vietnamese Data Evaluation</h3>
+          <p class="phase-desc">
+            Test Phase 1 model on approved, de-identified historical data from a partner Vietnamese adult ICU without live connection; refine only if required.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: Hospital ethics/data governance approval &amp; locked protocol.</div>
+      </div>
+
+      <div class="phase-card">
+        <div>
+          <div class="phase-num">PHASE 03 · TECHNICAL MVP</div>
+          <h3 class="phase-title">Live Integration MVP</h3>
+          <p class="phase-desc">
+            Validate real-time data export from compatible ICU equipment (e.g., HAMILTON-C6/S1 or Capsule MDIP) testing format, latency, and reliability.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: End-to-end Edge Connector &amp; cybersecurity verification.</div>
+      </div>
+
+      <div class="phase-card">
+        <div>
+          <div class="phase-num">PHASE 04 · MODEL LOCK</div>
+          <h3 class="phase-title">Primary Dataset &amp; Training</h3>
+          <p class="phase-desc">
+            Link validated live measurements from Vietnamese ICU patients with confirmed respiratory events to train, calibrate, and lock the primary model.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: Locked model weights, calibration &amp; threshold verification.</div>
+      </div>
+
+      <div class="phase-card">
+        <div>
+          <div class="phase-num">PHASE 05 · CLINICAL PILOT</div>
+          <h3 class="phase-title">Shadow Mode &amp; Pilot</h3>
+          <p class="phase-desc">
+            Evaluate fixed model on live data with outputs hidden from clinicians first; progress to controlled clinician review pilot only after safety checks pass.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: Audit logging, downtime/study-stop rules &amp; regulatory clearance.</div>
+      </div>
+
+      <div class="phase-card">
+        <div>
+          <div class="phase-num">PHASE 06 · COMMERCIAL</div>
+          <h3 class="phase-title">Staged ICU Deployment</h3>
+          <p class="phase-desc">
+            Prepare quality management, post-deployment monitoring, security updates, and site-specific onboarding across qualified hospital accounts.
+          </p>
+        </div>
+        <div class="phase-gate">GATE: Market authorisation &amp; evaluation-to-licence conversion.</div>
+      </div>
+    </section>
+
+    <!-- Market Beachhead & Regulatory Governance Split -->
+    <section class="market-reg-grid">
+      <div class="arch-col">
+        <span class="editorial-kicker">Section 4.6 // High-Risk Controls by Design</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">
+          Built for Vietnam's 2025–2026 AI &amp; Health-Data Legal Framework
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--slate-600);">
+          Because ICU prioritisation can influence decisions affecting health and safety, PulseMind applies high-risk governance controls by design rather than claiming premature regulatory shortcuts:
+        </p>
+
+        <div class="law-badge-list">
+          <div class="law-card">
+            <div class="law-card__code">LAW NO. 134/2025/QH15</div>
+            <div class="law-card__title">Vietnam Law on Artificial Intelligence</div>
+            <p class="law-card__desc">Effective 1 March 2026. High-risk human oversight, transparency, and auditability applied by design.</p>
+          </div>
+          <div class="law-card">
+            <div class="law-card__code">LAW NO. 91/2025/QH15 &amp; DECREE 356</div>
+            <div class="law-card__title">Personal Data Protection Law</div>
+            <p class="law-card__desc">Strict controller/processor boundaries, data minimisation, de-identification, and role-based access.</p>
+          </div>
+          <div class="law-card">
+            <div class="law-card__code">DECREE NO. 102/2025/NĐ-CP</div>
+            <div class="law-card__title">Health-Data Management</div>
+            <p class="law-card__desc">Governs clinical data provenance, hospital residency, retention/deletion schedules, and incident response.</p>
+          </div>
+          <div class="law-card">
+            <div class="law-card__code">DOCUMENT NO. 08/VBHN-BYT</div>
+            <div class="law-card__title">MoH Medical Device Framework</div>
+            <p class="law-card__desc">March 2026 consolidated guidance; formal SaMD classification confirmed prior to clinical evaluation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="arch-col" style="background-color: var(--crimson-tint-50);">
+        <span class="editorial-kicker">Section 4.1 &amp; 5 // Commercial Beachhead &amp; Unit Economics</span>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.5rem;">
+          Ho Chi Minh City Beachhead &amp; Evaluation-to-Licence Model
+        </h3>
+        <p style="font-size: 0.88rem; color: var(--slate-700); margin-bottom: 1.25rem;">
+          PulseMind separates unpaid research validation from commercial customer acquisition. Qualified hospitals enter through a scoped <strong>3–6 month Paid ICU Evaluation</strong> before committing to an <strong>Annual ICU Site Licence</strong>:
+        </p>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; margin-bottom: 1rem;">
+          <div style="background: var(--white-pure); border: 1px solid var(--crimson-border); padding: 1rem;">
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--slate-500);">INITIAL HCMC SCREENING POOL</div>
+            <div style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--crimson-core);">47 Hospitals</div>
+            <div style="font-size: 0.78rem; color: var(--slate-600);">Private general hospitals in HCMC (out of 163 city hospitals; &gt;93% citywide EMR adoption).</div>
+          </div>
+          <div style="background: var(--white-pure); border: 1px solid var(--crimson-border); padding: 1rem;">
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--slate-500);">OPERATING BREAK-EVEN TARGET</div>
+            <div style="font-family: var(--font-serif); font-size: 2.1rem; color: var(--crimson-core);">5 Active Sites</div>
+            <div style="font-size: 0.78rem; color: var(--slate-600);">10.6% of initial screening pool (~VND 4.0B ARR / VND 3.0B net contribution covers Y3 fixed costs).</div>
+          </div>
+          <div style="background: var(--white-pure); border: 1px solid var(--crimson-border); padding: 1rem;">
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--slate-500);">SCOPED PAID ICU EVALUATION</div>
+            <div style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--slate-950);">VND 300M</div>
+            <div style="font-size: 0.78rem; color: var(--slate-600);">One-off site configuration, mapping, onboarding &amp; workflow evaluation (25% planning gross margin).</div>
+          </div>
+          <div style="background: var(--white-pure); border: 1px solid var(--crimson-border); padding: 1rem;">
+            <div style="font-family: var(--font-mono); font-size: 0.68rem; color: var(--slate-500);">ANNUAL ICU SITE LICENCE</div>
+            <div style="font-family: var(--font-serif); font-size: 1.85rem; color: var(--slate-950);">VND 800M / yr</div>
+            <div style="font-size: 0.78rem; color: var(--slate-600);">Software access, updates, monitoring &amp; support; VND 600M contribution (75% planning gross margin).</div>
+          </div>
+        </div>
+
+        <!-- Interactive Year 3 Financial Sensitivity Simulator (Table 22 / Appendix B.3.4) -->
+        <div style="background: var(--white-pure); border: 1px solid var(--slate-900); padding: 1.15rem; margin-top: 0.5rem;">
+          <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 0.75rem;">
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--crimson-core);">
+              INTERACTIVE YEAR 3 SENSITIVITY SIMULATOR (TABLE 22)
+            </span>
+            <select id="finScenarioSelect" class="ui-select" aria-label="Select Year 3 Financial Scenario">
+              <option value="base">Base Case: 2 Evals + 1 Licence (VND 800m)</option>
+              <option value="breakeven">Break-Even Case: 2 Evals + 5 Licences (VND 800m)</option>
+              <option value="three">Expansion: 2 Evals + 3 Licences (VND 800m)</option>
+              <option value="upside">Upside Price: 2 Evals + 1 Licence (VND 1.00b)</option>
+              <option value="noconv">No Conversion: 2 Evals + 0 Licences</option>
+              <option value="highcost">Stress Test: Base Activity +50% Direct Cost</option>
+            </select>
+          </div>
+          <div id="finScenarioOutput" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; font-family: var(--font-mono); font-size: 0.76rem; padding-top: 0.5rem; border-top: 1px solid var(--grid-line);">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================
+         SECTION 07: THE PULSEMIND TEAM, MENTOR & ADVISORY NETWORK
+         ====================================================================== -->
+    <div id="team" class="section-header-bar">
+      <span class="section-header-bar__index">SECTION 07 // HUMAN RESOURCE, RACI MATRIX &amp; ADVISORY NETWORK</span>
+      <span>HCMUT (BACH KHOA) × UNIVERSITY OF TECHNOLOGY SYDNEY (UTS) MENTORSHIP</span>
+    </div>
+
+    <section class="section-title-block">
+      <div>
+        <span class="editorial-kicker">Section 8 // Interdependent Execution</span>
+        <h2 class="editorial-h2">
+          Six builders and clinical-technical advisors united by <em>scientific candor</em>.
+        </h2>
+      </div>
+      <p class="editorial-lead">
+        Model outputs shape the interface, clinical workflow evidence shapes product requirements, and disciplined communication ensures zero overclaiming.
+      </p>
+    </section>
+
+    <section class="team-grid">
+      <div class="team-member-card">
+        <span class="member-role-badge">TEAM LEADER // FRONTEND, MARKET &amp; DESIGN</span>
+        <h3 class="member-name">Nguyễn Lê Phương Khánh</h3>
+        <p class="member-desc">
+          Coordinates PulseMind across clinician-facing frontend architecture, hospital market analysis, UI/UX design systems, and stakeholder public relations.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag raci-tag--lead">R: Frontend &amp; Design</span>
+          <span class="raci-tag raci-tag--lead">R: Market &amp; PR</span>
+          <span class="raci-tag">C: Business Analysis</span>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <span class="member-role-badge">BUSINESS ANALYSIS &amp; FRONTEND</span>
+        <h3 class="member-name">Nguyễn Phương Trai</h3>
+        <p class="member-desc">
+          Bridges frontend user-experience insights and stakeholder communication with rigorous B2B hospital unit economics and commercial feasibility analysis.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag raci-tag--lead">R: Business Analysis</span>
+          <span class="raci-tag">A: Public Relations</span>
+          <span class="raci-tag">C: Frontend &amp; Market</span>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <span class="member-role-badge">ML MODEL &amp; BACKEND LEAD</span>
+        <h3 class="member-name">Phạm Quang Luân</h3>
+        <p class="member-desc">
+          Leads time-series ETL and gradient-boosted model development while holding primary accountability for backend ingestion and frontend alignment.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag raci-tag--lead">R: Model Development</span>
+          <span class="raci-tag">A: Backend &amp; Frontend</span>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <span class="member-role-badge">BACKEND &amp; ML ARCHITECTURE</span>
+        <h3 class="member-name">Yoshio Nomura</h3>
+        <p class="member-desc">
+          Co-leads predictive model experimentation (MIMIC-IV 4M×109 pipeline) and drives hands-on backend architecture and canonical data transformation.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag raci-tag--lead">R: Backend Development</span>
+          <span class="raci-tag">A: Model &amp; Frontend</span>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <span class="member-role-badge">GRAPHIC DESIGN &amp; PUBLIC RELATIONS</span>
+        <h3 class="member-name">Lê Việt Hải</h3>
+        <p class="member-desc">
+          Focuses on visual communication, clinical interface clarity, and stakeholder presentation while contributing to market and business strategy.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag raci-tag--lead">R: Graphic Design &amp; PR</span>
+          <span class="raci-tag">A: Market Analysis</span>
+          <span class="raci-tag">C: Business Analysis</span>
+        </div>
+      </div>
+
+      <div class="team-member-card">
+        <span class="member-role-badge">MARKET, BUSINESS &amp; VISUAL SYSTEMS</span>
+        <h3 class="member-name">Phạm Hoàng Bảo</h3>
+        <p class="member-desc">
+          Supports cross-functional delivery across hospital market qualification, financial sensitivity modeling, and visual design governance.
+        </p>
+        <div class="raci-tags">
+          <span class="raci-tag">A: Market, Business &amp; Design</span>
+          <span class="raci-tag">I: Model &amp; Tech Stack</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mentor & Advisory Strip -->
+    <section style="padding: 2.25rem 2.5rem; background-color: var(--white-paper); border-bottom: 1px solid var(--grid-line); display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem;">
+      <div>
+        <span class="editorial-kicker">Academic Mentor</span>
+        <h4 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.25rem;">Dr. Tobias Cibis</h4>
+        <p style="font-size: 0.82rem; color: var(--slate-600);">
+          Lecturer, School of Computer Science, Faculty of Engineering &amp; IT, <strong>University of Technology Sydney (UTS)</strong>. Guides strategic direction and clinical workflow information structure.
+        </p>
+      </div>
+      <div>
+        <span class="editorial-kicker">Technical &amp; Domain Advisors</span>
+        <h4 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.25rem;">Henry &amp; Dr. Bosco Tran</h4>
+        <p style="font-size: 0.82rem; color: var(--slate-600);">
+          <strong>Henry</strong> advises on ML model development, UX/UI, and technical feasibility; <strong>Dr. Bosco Tran</strong> supports healthcare-data analysis and clinical domain understanding.
+        </p>
+      </div>
+      <div>
+        <span class="editorial-kicker">Expert Clinical Contributors</span>
+        <h4 style="font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 0.25rem;">Dr. Mai Hữu Xuân &amp; Dr. Tuấn</h4>
+        <p style="font-size: 0.82rem; color: var(--slate-600);">
+          Provided targeted insights into Vietnamese hospital infrastructure, clinical ICU workflows, and institutional connections. <em>(Advisory input does not constitute formal hospital endorsement.)</em>
+        </p>
+      </div>
+    </section>
+
+    <!-- Candid SWOT & Epistemic Transparency Strip (Section 6 / Figure 11) -->
+    <section style="padding: 2.5rem; border-bottom: 1px solid var(--grid-line); background-color: var(--white-pure);">
+      <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <span class="editorial-kicker">Section 6 // Radical Candor &amp; Internal SWOT Analysis</span>
+          <h3 style="font-family: var(--font-serif); font-size: 2rem;">Why We Expose Uncertainty Rather Than Overclaim</h3>
+        </div>
+        <p style="font-size: 0.85rem; color: var(--slate-600); max-width: 540px;">
+          In intensive care, premature claims erode clinician trust. PulseMind explicitly documents both its architectural strengths and its current pre-validation boundaries:
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+        <div style="border: 1px solid var(--crimson-border); background: var(--crimson-tint-50); padding: 1.25rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: var(--crimson-core); margin-bottom: 0.5rem;">S // STRENGTHS</div>
+          <ul style="font-size: 0.82rem; color: var(--slate-800); padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li>Read-only; clinician stays 100% in control</li>
+            <li>Explicitly flags when data cannot be trusted</li>
+            <li>Full 3-screen review workflow built</li>
+            <li>Disciplined refusal to overclaim results</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--grid-line-strong); background: var(--white-paper); padding: 1.25rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: #B45309; margin-bottom: 0.5rem;">W // WEAKNESSES (CURRENT)</div>
+          <ul style="font-size: 0.82rem; color: var(--slate-800); padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li>Clinical prediction target not yet locked with partner</li>
+            <li>Not yet tested on retrospective Vietnamese ICU data</li>
+            <li>Prototype risk scores are illustrative/simulated</li>
+            <li>Pre-revenue; no paying hospital customer yet</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--grid-line-strong); background: var(--white-paper); padding: 1.25rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: #0F766E; margin-bottom: 0.5rem;">O // OPPORTUNITIES</div>
+          <ul style="font-size: 0.82rem; color: var(--slate-800); padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li>47 target private general hospitals in HCMC</li>
+            <li>&gt;93% HCMC hospital EMR adoption readiness</li>
+            <li>Updated N=36 ICU clinician survey backs workflow</li>
+            <li>Local Vietnamese ICU evidence can build a moat</li>
+          </ul>
+        </div>
+        <div style="border: 1px solid var(--grid-line-strong); background: var(--white-paper); padding: 1.25rem;">
+          <div style="font-family: var(--font-mono); font-size: 0.72rem; font-weight: 700; color: #475569; margin-bottom: 0.5rem;">T // THREATS</div>
+          <ul style="font-size: 0.82rem; color: var(--slate-800); padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li>Established global ICU monitoring vendors exist</li>
+            <li>Hospital data governance &amp; access takes time</li>
+            <li>Evolving AI &amp; health-data privacy regulations</li>
+            <li>Unvalidated or noisy prompts could lose clinician trust</li>
+          </ul>
+        </div>
+      </div>
+      <!-- Interactive RACI Matrix (Table 11) & Key Assumptions Register (Table 18) Accordion/Tabs -->
+      <div style="margin-top: 2rem; border-top: 1px solid var(--grid-line); padding-top: 1.75rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1rem;">
+          <div>
+            <span style="font-family: var(--font-mono); font-size: 0.7rem; font-weight: 700; color: var(--crimson-core); text-transform: uppercase;">
+              GOVERNANCE &amp; EXECUTION REGISTERS (TABLES 11 &amp; 18)
+            </span>
+            <h4 style="font-family: var(--font-serif); font-size: 1.55rem;">Inspect Full RACI Matrix &amp; Pre-Deployment Assumption Register (A1–A9)</h4>
+          </div>
+          <div class="screen-tabs">
+            <button type="button" class="screen-tab-btn active" data-register-tab="assumptions">
+              <span class="screen-tab-btn__num">A1–A9</span>
+              <span>Detailed Assumptions Register (Table 18)</span>
+            </button>
+            <button type="button" class="screen-tab-btn" data-register-tab="raci">
+              <span class="screen-tab-btn__num">RACI</span>
+              <span>Team Responsibility Matrix (Table 11)</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="registerTabContainer" style="overflow-x: auto;">
+          <!-- Populated dynamically by JS -->
+        </div>
+      </div>
+    </section>
+    <section id="validation-partner" class="crimson-cta-banner">
+      <div>
+        <span class="ribbon-tag" style="font-family: var(--font-mono); font-size: 0.72rem; display:inline-block; margin-bottom: 1rem;">
+          OUR OBJECTIVE AT BACH KHOA INNOVATION 2026
+        </span>
+        <h2 class="cta-h2">
+          Help us move from a disciplined Proof of Concept to a <em>target-locked retrospective validation study</em>.
+        </h2>
+        <p style="font-size: 1.02rem; opacity: 0.92; max-width: 680px;">
+          We do not claim readiness for live clinical deployment today. We are seeking hospital partners, ICU clinical champions, and regulatory mentors to rigorously challenge and validate PulseMind:
+        </p>
+
+        <ul class="cta-checklist">
+          <li>
+            <span style="font-family: var(--font-mono); font-weight: 700; background: rgba(255,255,255,0.2); padding: 0.1rem 0.45rem;">01</span>
+            <span><strong>Adult-ICU Hospital Validation Partner:</strong> Introduction to a qualified hospital in Vietnam to assess retrospective historical data feasibility under ethics &amp; governance approval.</span>
+          </li>
+          <li>
+            <span style="font-family: var(--font-mono); font-weight: 700; background: rgba(255,255,255,0.2); padding: 0.1rem 0.45rem;">02</span>
+            <span><strong>Clinical, Regulatory &amp; MDIP Mentorship:</strong> Guidance on Law No. 134/2025/QH15, Decree 102/2025/NĐ-CP, and Philips Capsule / bedside integration pathways.</span>
+          </li>
+          <li>
+            <span style="font-family: var(--font-mono); font-weight: 700; background: rgba(255,255,255,0.2); padding: 0.1rem 0.45rem;">03</span>
+            <span><strong>Direct Scientific Challenge:</strong> Critique our prediction target definition, selective prompt thresholds, and evaluation-to-licence assumptions.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div class="cta-box-right">
+        <div style="font-family: var(--font-mono); font-size: 0.72rem; color: var(--crimson-core); font-weight: 700; margin-bottom: 0.35rem;">
+          DIRECT RESEARCH &amp; PARTNERSHIP CONTACT
+        </div>
+        <h3 style="font-family: var(--font-serif); font-size: 2rem; margin-bottom: 0.75rem;">
+          Initiate a Validation Dialogue
+        </h3>
+        <p style="font-size: 0.85rem; color: var(--slate-600); margin-bottom: 1.25rem;">
+          Connect with Team PulseMind (Bach Khoa Innovation 2026 — University Category Grand Final) to review our full validation protocol, assumption register, or live prototype.
+        </p>
+
+        <div style="background: var(--white-paper); border: 1px solid var(--grid-line-strong); padding: 1rem; margin-bottom: 1.25rem; font-family: var(--font-mono); font-size: 0.78rem;">
+          <div style="margin-bottom: 0.4rem;"><strong>Team Lead:</strong> Nguyễn Lê Phương Khánh</div>
+          <div style="margin-bottom: 0.4rem;"><strong>Email:</strong> <a href="mailto:khanh.nguyenl3ph@hcmut.edu.vn" style="color: var(--crimson-core); text-decoration: underline;">khanh.nguyenl3ph@hcmut.edu.vn</a></div>
+          <div><strong>Mentor:</strong> <a href="mailto:Tobias.Cibis@uts.edu.au" style="color: var(--slate-700); text-decoration: underline;">Tobias.Cibis@uts.edu.au</a> (UTS)</div>
+        </div>
+
+        <a href="mailto:khanh.nguyenl3ph@hcmut.edu.vn?subject=PulseMind%20BKI%202026%20—%20Clinical%20Validation%20%26%20Partnership%20Inquiry" class="btn-crimson" style="width: 100%; justify-content: center;">
+          <span>Email Team PulseMind</span>
+          <span>→</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================
+       FOOTER & CLINICAL DISCLAIMER
+       ======================================================================== -->
+  <footer class="site-footer">
+    <div class="site-footer__inner">
+      <div style="max-width: 680px;">
+        <div style="color: var(--white-pure); font-weight: 800; font-size: 1.1rem; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+          <span style="color: var(--crimson-bright);">PULSE</span>MIND // CLINICAL DECISION SUPPORT PROTOTYPE
+        </div>
+        <p style="line-height: 1.6; color: var(--slate-400);">
+          <strong>Regulatory &amp; Clinical Disclaimer:</strong> PulseMind is currently a pre-deployment proof-of-concept prototype created for research and workflow evaluation (Bach Khoa Innovation 2026). All displayed risk scores, trends, and parameters are illustrative simulated values and have not been clinically validated. PulseMind does not diagnose, recommend treatment, control ventilators, or replace clinical judgement.
+        </p>
+      </div>
+      <div style="font-family: var(--font-mono); font-size: 0.75rem; text-align: right;">
+        <div style="color: var(--white-pure); margin-bottom: 0.35rem;">BACH KHOA INNOVATION 2026 · GRAND FINAL</div>
+        <div>Ho Chi Minh City University of Technology (HCMUT)</div>
+        <div>Survey Evidence Updated: N = 36 ICU Professionals (2026)</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
